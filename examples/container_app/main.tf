@@ -11,7 +11,7 @@ data "azurerm_resource_group" "main" {
   name = "${local.project_name}-${var.app_environment}"
 }
 
-module "container_app_environment" {
+module "platform_container_app_environment" {
   source          = "bcc-code/platform/azure//modules/container_app_environment"
   project_name    = local.project_name
   app_environment = var.app_environment
@@ -19,7 +19,7 @@ module "container_app_environment" {
 }
 
 # Supports the same parameters as described here https://registry.terraform.io/providers/hashicorp/azurerm/3.47.0/docs/resources/container_app
-module "container_app_api" {
+module "platform_container_app" {
   source                    = "bcc-code/platform/azure//modules/container_app"
   project_name              = local.project_name
   app_environment           = var.app_environment
@@ -46,7 +46,7 @@ module "container_app_api" {
   }
 }
 
-module "container_app_second_component" {
+module "platform_container_app_second_component" {
   source                    = "bcc-code/platform/azure//modules/container_app"
   project_name              = local.project_name
   component_name            = "second-component" # If more than one container app is deployed in a project, a component name different that "api" must be specified. "api" is the default one.

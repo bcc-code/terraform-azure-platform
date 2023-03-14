@@ -1,0 +1,70 @@
+formatter: "markdown table"
+
+sections:
+    show:
+        - header
+        - footer
+        - inputs
+        - outputs
+        - requirements
+
+sort:
+    enabled: false
+
+recursive:
+    enabled: true
+
+settings:
+    hide-empty: false
+
+content: |-
+    {{- if .Module.Inputs -}}
+        {{ .Header }}
+
+        {{ .Requirements }}
+
+        {{ .Resources }}
+
+        {{ if .Config.Sections.Inputs -}}
+            {{- indent 0 "#" }} Inputs
+            Inputs that are marked with `***` are not documented in the official documentation.
+
+            | Name | Description |
+            {{- if .Config.Settings.Type }} Type |{{ end }}
+            {{- if .Config.Settings.Default }} Default |{{ end }}
+            {{- if .Config.Settings.Required }} Required |{{ end }}
+            |------|-------------|
+            {{- if .Config.Settings.Type }}------|{{ end }}
+            {{- if .Config.Settings.Default }}---------|{{ end }}
+            {{- if .Config.Settings.Required }}:--------:|{{ end }}
+            {{- range .Module.Inputs }}
+                | {{ anchorNameMarkdown "input" .Name }} | {{ tostring .Description | sanitizeMarkdownTbl }} |
+                {{- if $.Config.Settings.Type -}}
+                    {{ printf " " }}{{- $code := tostring .Type -}}
+                    {{- if contains "\n" $code -}}
+                        {{- printf "\n\n```\n%s\n```\n" $code | sanitizeMarkdownTbl -}}
+                    {{- else -}}
+                        {{- printf "`%s`" $code | sanitizeMarkdownTbl -}}
+                    {{- end -}} |
+                {{- end -}}
+                {{- if $.Config.Settings.Default -}}
+                    {{ printf " " }}{{- $code := .GetValue -}}
+                    {{- if contains "\n" $code -}}
+                        {{- printf "\n\n```\n%s\n```\n" $code | sanitizeMarkdownTbl -}}
+                    {{- else -}}
+                        {{- printf "`%s`" $code | sanitizeMarkdownTbl -}}
+                    {{- end -}} |
+                {{- end -}}
+                {{- if $.Config.Settings.Required -}}
+                    {{ printf " " }}{{ ternary .Required "yes" "no" }} |
+                {{- end -}}
+            {{- end }}
+        {{ end -}}
+
+        {{ .Outputs }}
+
+        {{ .Footer }}
+    {{- end -}}
+
+output:
+    file: README.md

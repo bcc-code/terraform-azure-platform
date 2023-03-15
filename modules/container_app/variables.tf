@@ -217,7 +217,7 @@ variable "identity" {
   default = null
 
   validation {
-    condition     = var.identity.type != null ? contains(["SystemAssigned, UserAssigned", "UserAssigned"], var.identity.type) : true
+    condition     = var.identity != null ? contains(["SystemAssigned, UserAssigned", "UserAssigned"], var.identity.type) : true
     error_message = "Supported values for identity type are \"SystemAssigned, UserAssigned\" or \"UserAssigned\"."
   }
 }

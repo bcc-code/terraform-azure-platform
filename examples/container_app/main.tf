@@ -13,6 +13,7 @@ data "azurerm_resource_group" "main" {
 
 module "platform_container_app_environment" {
   source          = "bcc-code/platform/azure//modules/container_app_environment"
+  version         = "~> 0.1.0"
   project_name    = local.project_name
   app_environment = var.app_environment
   resource_group  = data.azurerm_resource_group.main
@@ -21,11 +22,12 @@ module "platform_container_app_environment" {
 # Supports the same parameters as described here https://registry.terraform.io/providers/hashicorp/azurerm/3.47.0/docs/resources/container_app
 module "platform_container_app" {
   source                    = "bcc-code/platform/azure//modules/container_app"
+  version                   = "~> 0.1.0"
   project_name              = local.project_name
   app_environment           = var.app_environment
   platform_environment      = var.platform_environment
   resource_group            = data.azurerm_resource_group.main
-  container_app_environment = azurerm_container_app_environment.main
+  container_app_environment = module.platform_container_app_environment.main
   # always_on                 = true # by default it's false and it allows the application to downscale to no running instances if there's no load for 5 minutes.
   template = {
     container = [{
@@ -48,12 +50,13 @@ module "platform_container_app" {
 
 module "platform_container_app_second_component" {
   source                    = "bcc-code/platform/azure//modules/container_app"
+  version                   = "~> 0.1.0"
   project_name              = local.project_name
   component_name            = "second-component" # If more than one container app is deployed in a project, a component name different that "api" must be specified. "api" is the default one.
   app_environment           = var.app_environment
   platform_environment      = var.platform_environment
   resource_group            = data.azurerm_resource_group.main
-  container_app_environment = azurerm_container_app_environment.main
+  container_app_environment = module.platform_container_app_environment.main
   secret = [
     {
       name  = "your_secret"

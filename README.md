@@ -23,6 +23,9 @@ module "container_app_second_component" {
   }
 }
 ```
+
+## Documentation
+The documentation for this project was automatically generated using `terraform-docs .`.
 <!-- BEGIN_TF_DOCS -->
 
 <!-- END_TF_DOCS -->

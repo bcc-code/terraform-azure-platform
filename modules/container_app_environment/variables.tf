@@ -1,6 +1,6 @@
 variable "project_name" {
   type        = string
-  description = "The name of the project"
+  description = "***\n The name of the project"
 
   validation {
     condition     = can(regex("^[a-z0-9-]+$", var.project_name))
@@ -10,7 +10,7 @@ variable "project_name" {
 
 variable "app_environment" {
   type        = string
-  description = "The environment name of the app"
+  description = "***\n The environment name of the app"
 
   validation {
     condition     = can(regex("^[a-z0-9]+$", var.app_environment))
@@ -20,12 +20,12 @@ variable "app_environment" {
 
 variable "resource_group" {
   type        = map(any)
-  description = "The data resource of the project's resource group"
+  description = "***\n The data resource of the project's resource group"
 }
 
 variable "log_analytics_workspace" {
   type        = map(any)
-  description = "(optional) The shared container registry reader user assigned identity data resource"
+  description = "***\n (optional) The shared container registry reader user assigned identity data resource\n If not provided, the module creates one itself."
   default     = null
 }
 

@@ -167,12 +167,6 @@ resource "azurerm_container_app" "main" {
         storage_type = volume.value["storage_type"]
       }
     }
-
-    lifecycle {
-      ignore_changes = [
-        template.0.container.*.image
-      ]
-    }
   }
 
   dynamic "secret" {
@@ -195,5 +189,11 @@ resource "azurerm_container_app" "main" {
   identity {
     type         = can(regex("SystemAssigned"), var.identity.type) ? "SystemAssigned, UserAssigned" : "UserAssigned"
     identity_ids = concat(coalesce(var.identity.identity_ids, []), [local.shared_cr_reader.id])
+  }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image
+    ]
   }
 }

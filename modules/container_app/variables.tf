@@ -80,8 +80,8 @@ variable "template" {
       volume_mounts = optional(list(object({
         name = string
         path = string
-      })))
-      liveness_probe = optional(object({
+      })), [])
+      liveness_probe = optional(list(object({
         transport = string
         port      = number
         host      = optional(string)
@@ -95,8 +95,8 @@ variable "template" {
         timeout                          = optional(number)
         failure_count_threshold          = optional(number)
         termination_grace_period_seconds = optional(number)
-      }))
-      readiness_probe = optional(object({
+      })), [])
+      readiness_probe = optional(list(object({
         transport = string
         port      = number
         host      = optional(string)
@@ -109,8 +109,8 @@ variable "template" {
         timeout                 = optional(number)
         failure_count_threshold = optional(number)
         success_count_threshold = optional(number)
-      }))
-      startup_probe = optional(object({
+      })), [])
+      startup_probe = optional(list(object({
         transport = string
         port      = number
         host      = optional(string)
@@ -123,7 +123,7 @@ variable "template" {
         timeout                          = optional(number)
         failure_count_threshold          = optional(number)
         termination_grace_period_seconds = optional(number)
-      }))
+      })), [])
     }))
     min_replicas    = optional(number)
     max_replicas    = optional(number)
@@ -132,7 +132,7 @@ variable "template" {
       name         = string
       storage_name = optional(string)
       storage_type = optional(string)
-    })))
+    })), [])
   })
   default = {
     container = [{
@@ -160,7 +160,7 @@ variable "ingress" {
       certificate_binding_type = optional(string)
       certificate_id           = string
       name                     = string
-    })))
+    })), [])
     external_enabled = optional(bool, true)
     target_port      = optional(number, 80)
     transport        = optional(string)
@@ -175,6 +175,10 @@ variable "ingress" {
   default = {
     external_enabled = true
     target_port      = 80
+    traffic_weight = {
+      latest_revision = true
+      percentage      = 100
+    }
   }
 }
 

@@ -29,7 +29,7 @@ resource "azurerm_container_app" "main" {
       }
     }
     dynamic "traffic_weight" {
-      for_each = var.ingress.traffic_weight != null ? list([1]) : list([]) // Fill if traffic weight is not null
+      for_each = var.ingress.traffic_weight != null ? tolist([1]) : tolist([]) // Fill if traffic weight is not null
       content {
         label           = traffic_weight.value["label"]
         revision_suffix = traffic_weight.value["revision_suffix"]
@@ -170,7 +170,7 @@ resource "azurerm_container_app" "main" {
   }
 
   dynamic "secret" {
-    for_each = tolist(var.secret)
+    for_each = toset(var.secret)
     content {
       name  = secret.value["name"]
       value = secret.value["value"]
@@ -178,7 +178,7 @@ resource "azurerm_container_app" "main" {
   }
 
   dynamic "dapr" {
-    for_each = var.dapr != null ? list([1]) : list([]) // Fill if dapr is not null
+    for_each = var.dapr != null ? tolist([1]) : tolist([]) // Fill if dapr is not null
     content {
       app_id       = dapr.value["app_id"]
       app_port     = dapr.value["app_port"]
@@ -188,7 +188,7 @@ resource "azurerm_container_app" "main" {
 
   identity {
     type         = can(regex("SystemAssigned", var.identity.type)) ? "SystemAssigned, UserAssigned" : "UserAssigned"
-    identity_ids = concat(coalesce(tolist(var.identity.identity_ids), []), [local.shared_cr_reader.id])
+    identity_ids = concat(try(tolist(var.identity.identity_ids), []), [local.shared_cr_reader.id])
   }
 
   lifecycle {

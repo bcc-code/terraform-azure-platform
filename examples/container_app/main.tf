@@ -58,7 +58,7 @@ module "platform_container_app_second_component" {
   container_app_environment = module.platform_container_app_environment.main
   secret = [
     {
-      name  = "your_secret"
+      name  = "your-secret"
       value = "super secret value. It's recommended to leave this field empty here and fill the value through Azure Portal"
     }
   ]

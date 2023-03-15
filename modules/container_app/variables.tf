@@ -76,7 +76,7 @@ variable "template" {
         name        = string
         value       = optional(string)
         secret_name = optional(string)
-      })))
+      })), [])
       volume_mounts = optional(list(object({
         name = string
         path = string
@@ -193,7 +193,7 @@ variable "registry" {
 }
 
 variable "secret" {
-  type = set(object({
+  type = list(object({
     name  = string
     value = string
   }))

@@ -31,10 +31,10 @@ resource "azurerm_container_app" "main" {
     dynamic "traffic_weight" {
       for_each = var.ingress.traffic_weight != null ? tolist([1]) : tolist([]) // Fill if traffic weight is not null
       content {
-        label           = traffic_weight.value["label"]
-        revision_suffix = traffic_weight.value["revision_suffix"]
-        latest_revision = traffic_weight.value["latest_revision"]
-        percentage      = traffic_weight.value["percentage"]
+        label           = var.ingress.traffic_weight.label
+        revision_suffix = var.ingress.traffic_weight.revision_suffix
+        latest_revision = var.ingress.traffic_weight.latest_revision
+        percentage      = var.ingress.traffic_weight.percentage
       }
     }
   }
@@ -170,19 +170,19 @@ resource "azurerm_container_app" "main" {
   }
 
   dynamic "secret" {
-    for_each = toset(var.secret)
+    for_each = { for k, v in var.secret : k => v }
     content {
-      name  = secret.value["name"]
-      value = secret.value["value"]
+      name  = secret.key
+      value = sensitive(secret.value)
     }
   }
 
   dynamic "dapr" {
     for_each = var.dapr != null ? tolist([1]) : tolist([]) // Fill if dapr is not null
     content {
-      app_id       = dapr.value["app_id"]
-      app_port     = dapr.value["app_port"]
-      app_protocol = dapr.value["app_protocol"]
+      app_id       = var.dapr.app_id
+      app_port     = var.dapr.app_port
+      app_protocol = var.dapr.app_protocol
     }
   }
 

@@ -1,6 +1,6 @@
 data "azurerm_user_assigned_identity" "shared_cr_reader" {
   count               = var.shared_cr_reader == null ? 1 : 0
-  name                = "id-cr-reader-${var.project_name}-${var.app_environment}"
+  name                = "id-cr-reader-${var.project_name}-${var.platform_environment}"
   resource_group_name = var.resource_group.name
 }
 

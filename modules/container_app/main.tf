@@ -170,7 +170,10 @@ resource "azurerm_container_app" "main" {
   }
 
   dynamic "secret" {
-    for_each = { for k, v in var.secret : k => v }
+    for_each = tolist([for secret in var.secret : {
+      name  = secret.name
+      value = secret.value
+    }])
     content {
       name  = secret.key
       value = sensitive(secret.value)

@@ -34,7 +34,7 @@ variable "platform_environment" {
   description = "***\n The underlying platform environment. Either 'prod' or 'dev'."
 
   validation {
-    condition     = contains(["prod", "dev"], var.platform_environment)
+    condition     = contains(["prod", "dev", "dev3"], var.platform_environment)
     error_message = "`platform_environment` variable can only be 'prod' or 'dev'."
   }
 }

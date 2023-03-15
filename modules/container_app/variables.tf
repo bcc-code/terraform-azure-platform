@@ -46,18 +46,15 @@ variable "always_on" {
 }
 
 variable "shared_cr_reader" {
-  type        = map(any)
   description = "***\n (optional) The shared container registry reader user assigned identity data resource\n If not provided, the module reads it itself."
   default     = null
 }
 
 variable "resource_group" {
-  type        = map(any)
   description = "***\n The data resource of the project's resource group\n To be used instead of `resource_group_name` variable"
 }
 
 variable "container_app_environment" {
-  type        = map(any)
   description = "***\n The container app environment data resource\n To be used instead of `container_app_environment_id` variable"
 }
 

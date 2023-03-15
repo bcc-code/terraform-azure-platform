@@ -19,12 +19,10 @@ variable "app_environment" {
 }
 
 variable "resource_group" {
-  type        = map(any)
   description = "***\n The data resource of the project's resource group"
 }
 
 variable "log_analytics_workspace" {
-  type        = map(any)
   description = "***\n (optional) The shared container registry reader user assigned identity data resource\n If not provided, the module creates one itself."
   default     = null
 }

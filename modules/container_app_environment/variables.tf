@@ -38,3 +38,9 @@ variable "internal_load_balancer_enabled" {
   type    = bool
   default = null
 }
+
+variable "tags" {
+  description = "(optional) Specifies the tags for the resource"
+  type        = map(string)
+  default     = {}
+}

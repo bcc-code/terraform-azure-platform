@@ -170,7 +170,7 @@ resource "azurerm_container_app" "main" {
   }
 
   dynamic "secret" {
-    for_each = var.secret
+    for_each = tolist(var.secret)
     content {
       name  = secret.value["name"]
       value = secret.value["value"]
@@ -187,8 +187,8 @@ resource "azurerm_container_app" "main" {
   }
 
   identity {
-    type         = can(regex("SystemAssigned"), var.identity.type) ? "SystemAssigned, UserAssigned" : "UserAssigned"
-    identity_ids = concat(coalesce(var.identity.identity_ids, []), [local.shared_cr_reader.id])
+    type         = can(regex("SystemAssigned", var.identity.type)) ? "SystemAssigned, UserAssigned" : "UserAssigned"
+    identity_ids = concat(coalesce(tolist(var.identity.identity_ids), []), [local.shared_cr_reader.id])
   }
 
   lifecycle {

@@ -1,6 +1,6 @@
 resource "azurerm_log_analytics_workspace" "main" {
   count               = var.log_analytics_workspace == null ? 1 : 0
-  name                = "logs-${local.project_name}"
+  name                = "logs-${var.project_name}"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   sku                 = "PerGB2018"

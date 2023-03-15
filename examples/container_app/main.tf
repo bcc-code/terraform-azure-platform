@@ -3,8 +3,7 @@ provider "azurerm" {
 }
 
 locals {
-  project_name   = "[slug]" # Fill in with the project slug here
-  component_name = ""       # Fill in with the component name e.g. api or cms
+  project_name = "example" # Fill in with the project slug here
 }
 
 data "azurerm_resource_group" "main" {

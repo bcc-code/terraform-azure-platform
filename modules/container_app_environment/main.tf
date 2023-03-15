@@ -8,7 +8,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 locals {
-  log_analytics_workspace = coalesce(var.log_analytics_workspace, azurerm_log_analytics_workspace.main)
+  log_analytics_workspace = coalesce(var.log_analytics_workspace, azurerm_log_analytics_workspace.main[0])
 }
 
 resource "azurerm_container_app_environment" "main" {

@@ -5,7 +5,7 @@ data "azurerm_user_assigned_identity" "shared_cr_reader" {
 }
 
 locals {
-  shared_cr_reader = coalesce(var.shared_cr_reader, data.azurerm_user_assigned_identity.shared_cr_reader)
+  shared_cr_reader = coalesce(var.shared_cr_reader, data.azurerm_user_assigned_identity.shared_cr_reader[0])
 }
 
 resource "azurerm_container_app" "main" {

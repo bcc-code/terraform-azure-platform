@@ -9,7 +9,7 @@ locals {
 }
 
 resource "azurerm_container_app" "main" {
-  name                         = "ca-${var.project_name}-${var.app_environment}"
+  name                         = "ca-${var.project_name}-${var.component_name}-${var.app_environment}"
   container_app_environment_id = var.container_app_environment.id
   resource_group_name          = var.resource_group.name
   revision_mode                = var.revision_mode

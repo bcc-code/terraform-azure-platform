@@ -66,8 +66,8 @@ module "platform_container_app_second_component" {
     container = [{
       image = "value" # Image can also be specified in case the default one is not wanted. 
       # After the resource creation, the image has to be managed from outside terraform from Azure Portal or the Github Action
-      cpu    = 1.0
-      memory = "2.0Gi"
+      cpu    = 0.5
+      memory = "1.0Gi"
     }]
     min_replicas = 0  # Setting this to 0 has the same effect as leaving the always_on variable set to false. This setting takes precedence over always_on variable.
     max_replicas = 10 # 10 is the default 
